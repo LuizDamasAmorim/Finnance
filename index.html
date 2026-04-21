@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="shortcut icon" href="images/Gemini_Generated_Image_s69p1ps69p1ps69p-removebg-preview (3).png"
+        type="image/x-icon">
+    <title>Finance</title>
+
+    <link rel="stylesheet" href="Style/home.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css?v=2">
+
+</head>
+
+<body>
+
+    <div class="app">
+
+        <!-- HEADER -->
+        <div class="header">
+            <p>MINHA CARTEIRA</p>
+
+            <div class="sub-header">
+                <h2>Controle Financeiro</h2>
+                <div class="eye" onclick="toggleSaldo()">
+                    <i class="fa-regular fa-eye"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- CARD VERDE -->
+        <div class="card">
+            <p class="label">Saldo disponível</p>
+            <h1 id="saldo" class="money">R$ 5.000,00</h1>
+            <div class="info-box">
+
+                <div class="mini-card">
+                    <span>Saldo total</span>
+                    <strong id="saldoTotalValor" class="money" onclick="abrirModalSaldo()">R$ 5.000,00</strong>
+                </div>
+
+                <div class="mini-card">
+                    <span>Reservado</span>
+                    <strong id="valorReservado" class="money">R$ 0,00</strong>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="progress-area">
+
+            <div class="progress-header">
+                <span id="percent">Reservado</span>
+                <span id="valores">0%</span>
+            </div>
+
+            <div class="progress-bar">
+                <div class="progress-fill"></div>
+            </div>
+
+        </div>
+
+        <div class="categorias-header">
+            <h2>Categorias</h2>
+            <span class="badge" id="contadorCategorias">0 itens</span>
+        </div>
+
+        <div class="categorias-grid" id="categoriasGrid"></div>
+
+        <div class="empty-state" id="emptyState">
+            <div class="empty-icon">
+                <i class="fa-solid fa-arrow-trend-down"></i>
+            </div>
+
+            <p class="empty-title">Nenhuma categoria ainda</p>
+            <span class="empty-text">Toque no botão "+" para adicionar uma.</span>
+        </div>
+
+    </div>
+
+    </div>
+
+    <button class="fab" id="fab" onclick="abrirModal()">
+        <i class="fa-solid fa-plus"></i>
+    </button>
+
+    <div class="modal-overlay" id="modal">
+
+        <div class="modal">
+
+            <!-- TOPO -->
+            <div class="modal-header">
+                <span></span>
+                <h2 id="tituloModal">Nova categoria</h2>
+                <button class="close-btn" onclick="fecharModal()">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- INPUT NOME -->
+            <label>Nome</label>
+            <input id="nomeCategoria" type="text" placeholder="Ex: Viagem, Alimentação...">
+
+            <!-- INPUT VALOR -->
+            <label>Valor (R$)</label>
+            <input id="valorCategoria" type="number" placeholder="0,00">
+
+            <small id="saldoDisponivelModal">Disponível: R$ 0,00</small>
+
+            <label>Ícone</label>
+
+            <div class="icons-grid">
+
+                <div class="icon-option active" data-icon="fa-utensils"><i class="fa-solid fa-utensils"></i></div>
+                <div class="icon-option" data-icon="fa-car"><i class="fa-solid fa-car"></i></div>
+                <div class="icon-option" data-icon="fa-plane"><i class="fa-solid fa-plane"></i></div>
+                <div class="icon-option" data-icon="fa-bag-shopping"><i class="fa-solid fa-bag-shopping"></i></div>
+                <div class="icon-option" data-icon="fa-house"><i class="fa-solid fa-house"></i></div>
+                <div class="icon-option" data-icon="fa-cart-shopping"><i class="fa-solid fa-cart-shopping"></i></div>
+                <div class="icon-option" data-icon="fa-heart"><i class="fa-solid fa-heart"></i></div>
+                <div class="icon-option" data-icon="fa-gamepad"><i class="fa-solid fa-gamepad"></i></div>
+                <div class="icon-option" data-icon="fa-shirt"><i class="fa-solid fa-shirt"></i></div>
+                <div class="icon-option" data-icon="fa-bus"><i class="fa-solid fa-bus"></i></div>
+                <div class="icon-option" data-icon="fa-bicycle"><i class="fa-solid fa-bicycle"></i></div>
+                <div class="icon-option" data-icon="fa-film"><i class="fa-solid fa-film"></i></div>
+                <div class="icon-option" data-icon="fa-music"><i class="fa-solid fa-music"></i></div>
+                <div class="icon-option" data-icon="fa-dumbbell"><i class="fa-solid fa-dumbbell"></i></div>
+                <div class="icon-option" data-icon="fa-briefcase"><i class="fa-solid fa-briefcase"></i></div>
+                <div class="icon-option" data-icon="fa-piggy-bank"><i class="fa-solid fa-piggy-bank"></i></div>
+                <div class="icon-option" data-icon="fa-gift"><i class="fa-solid fa-gift"></i></div>
+                <div class="icon-option" data-icon="fa-mobile-screen"><i class="fa-solid fa-mobile-screen"></i></div>
+                <div class="icon-option" data-icon="fa-wallet"><i class="fa-solid fa-wallet"></i></div>
+                <div class="icon-option" data-icon="fa-credit-card"><i class="fa-solid fa-credit-card"></i></div>
+                <div class="icon-option" data-icon="fa-money-bill-wave"><i class="fa-solid fa-money-bill-wave"></i>
+                </div>
+                <div class="icon-option" data-icon="fa-coins"><i class="fa-solid fa-coins"></i></div>
+                <div class="icon-option" data-icon="fa-building-columns"><i class="fa-solid fa-building-columns"></i>
+                </div>
+                <div class="icon-option" data-icon="fa-chart-line"><i class="fa-solid fa-chart-line"></i></div>
+                <div class="icon-option" data-icon="fa-bolt"><i class="fa-solid fa-bolt"></i></div>
+                <div class="icon-option" data-icon="fa-lightbulb"><i class="fa-solid fa-lightbulb"></i></div>
+                <div class="icon-option" data-icon="fa-wifi"><i class="fa-solid fa-wifi"></i></div>
+                <div class="icon-option" data-icon="fa-tv"><i class="fa-solid fa-tv"></i></div>
+                <div class="icon-option" data-icon="fa-laptop"><i class="fa-solid fa-laptop"></i></div>
+                <div class="icon-option" data-icon="fa-headphones"><i class="fa-solid fa-headphones"></i></div>
+                <div class="icon-option" data-icon="fa-hospital"><i class="fa-solid fa-hospital"></i></div>
+                <div class="icon-option" data-icon="fa-pills"><i class="fa-solid fa-pills"></i></div>
+                <div class="icon-option" data-icon="fa-graduation-cap"><i class="fa-solid fa-graduation-cap"></i></div>
+                <div class="icon-option" data-icon="fa-book"><i class="fa-solid fa-book"></i></div>
+                <div class="icon-option" data-icon="fa-paw"><i class="fa-solid fa-paw"></i></div>
+                <div class="icon-option" data-icon="fa-globe"><i class="fa-solid fa-globe"></i></div>
+                <div class="icon-option" data-icon="fa-map"><i class="fa-solid fa-map"></i></div>
+                <div class="icon-option" data-icon="fa-motorcycle"><i class="fa-solid fa-motorcycle"></i></div>
+                <div class="icon-option" data-icon="fa-gas-pump"><i class="fa-solid fa-gas-pump"></i></div>
+                <div class="icon-option" data-icon="fa-key"><i class="fa-solid fa-key"></i></div>
+                <div class="icon-option" data-icon="fa-lock"><i class="fa-solid fa-lock"></i></div>
+                <div class="icon-option" data-icon="fa-camera"><i class="fa-solid fa-camera"></i></div>
+                <div class="icon-option" data-icon="fa-barcode"><i class="fa-solid fa-barcode"></i></div>
+            </div>
+
+            <label>Cor</label>
+
+            <div class="colors-grid">
+
+                <div class="color-option active" data-color="pink"
+                    style="background: linear-gradient(135deg, #ff6b81, #ff2d55);"></div>
+                <div class="color-option" data-color="red"
+                    style="background: linear-gradient(135deg, #f87171, #ef4444);"></div>
+                <div class="color-option" data-color="orange"
+                    style="background: linear-gradient(135deg, #fb923c, #f97316);"></div>
+                <div class="color-option" data-color="yellow"
+                    style="background: linear-gradient(135deg, #fde047, #facc15);"></div>
+                <div class="color-option" data-color="green"
+                    style="background: linear-gradient(135deg, #4ade80, #22c55e);"></div>
+                <div class="color-option" data-color="emerald"
+                    style="background: linear-gradient(135deg, #34d399, #10b981);"></div>
+                <div class="color-option" data-color="teal"
+                    style="background: linear-gradient(135deg, #2dd4bf, #14b8a6);"></div>
+                <div class="color-option" data-color="blue"
+                    style="background: linear-gradient(135deg, #60a5fa, #3b82f6);"></div>
+                <div class="color-option" data-color="indigo"
+                    style="background: linear-gradient(135deg, #818cf8, #6366f1);"></div>
+                <div class="color-option" data-color="purple"
+                    style="background: linear-gradient(135deg, #c084fc, #a855f7);"></div>
+                <div class="color-option" data-color="violet"
+                    style="background: linear-gradient(135deg, #a78bfa, #8b5cf6);"></div>
+                <div class="color-option" data-color="gray"
+                    style="background: linear-gradient(135deg, #9ca3af, #6b7280);"></div>
+
+            </div>
+
+
+            <!-- BOTÃO -->
+            <button class="criar-btn" onclick="criarCategoria()">
+                Criar categoria
+            </button>
+
+        </div>
+
+    </div>
+
+
+    <div class="confirm-overlay" id="confirmModal">
+
+        <div class="confirm-box">
+            <h3>Excluir categoria?</h3>
+            <p>Essa ação não pode ser desfeita.</p>
+
+            <div class="confirm-actions">
+                <button class="cancelar" onclick="fecharConfirm()">Cancelar</button>
+                <button class="confirmar" onclick="confirmarExclusao()">Excluir</button>
+            </div>
+        </div>
+
+    </div>
+
+    <div class="modal-overlay" id="modalSaldo">
+
+        <div class="modal">
+
+            <!-- TOPO -->
+            <div class="modal-header">
+                <span></span>
+                <h2>Editar saldo</h2>
+                <button class="close-btn" onclick="fecharModalSaldo()">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <!-- INPUT -->
+            <label>Novo saldo</label>
+            <input id="inputSaldo" type="number" placeholder="Ex: 5000">
+
+            <!-- BOTÃO -->
+            <button class="criar-btn" onclick="salvarSaldo()">
+                Salvar
+            </button>
+
+        </div>
+
+    </div>
+
+    <div id="toast" class="toast"></div>
+
+    <!-- ================= TELA DETALHE ================= -->
+    <div class="tela-detalhe" id="telaDetalhe">
+
+        <div class="conteudo-detalhe">
+
+            <div class="detalhe-container">
+
+                <div class="detalhe-topo">
+
+                    <div class="acoes-topo">
+                        <button class="btn-acao editar">
+                            <i class="fa-solid fa-pen"></i>
+                        </button>
+
+                        <button class="btn-acao excluir">
+                            <i class="fa-regular fa-trash-can"></i>
+                        </button>
+                    </div>
+
+                    <button class="btn-voltar" onclick="fecharDetalhe()">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        Voltar
+                    </button>
+
+                    <div class="detalhe-header">
+                        <div class="detalhe-icon">
+                            <i class="fa-solid fa-house"></i>
+                        </div>
+
+                        <div class="detalhe-texto">
+                            <span class="detalhe-label">CATEGORIA</span>
+                            <h2 id="detalheNome">Nome</h2>
+                            <p id="detalheOrcamento">R$ 0,00</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="orcamento-card">
+
+                    <div class="orcamento-header">
+                        <i class="fa-solid fa-bullseye"></i>
+                        <span>ORÇAMENTO</span>
+                    </div>
+
+                    <div class="orcamento-valores">
+
+                        <div>
+                            <p>Reservado</p>
+                            <strong id="orcamentoReservado">R$ 800,00</strong>
+                        </div>
+
+                        <div>
+                            <p>Gasto</p>
+                            <strong class="negativo" id="orcamentoGasto">R$ 300,00</strong>
+                        </div>
+
+                        <div>
+                            <p>Restante</p>
+                            <strong class="positivo" id="orcamentoRestante">R$ 500,00</strong>
+                        </div>
+
+                    </div>
+
+                    <div class="orcamento-linha">
+                        <p class="orcamento-percent" id="orcamentoPercent">38% utilizado</p>
+                        <span id="alertaTexto" class="alerta"></span>
+                    </div>
+
+                    <div id="alertaOrcamento" class="alerta-orcamento">
+                        <i class="fa-solid fa-triangle-exclamation"></i>
+                        <span>Orçamento excedido!</span>
+                    </div>
+
+                    <div class="orcamento-bar">
+                        <div class="orcamento-fill" id="orcamentoFill"></div>
+                    </div>
+
+                </div>
+
+                <div class="stats-grid">
+
+                    <div class="stat-card">
+                        <div class="stat-icon green">
+                            <i class="fa-solid fa-receipt"></i>
+                        </div>
+                        <p>Transações</p>
+                        <strong id="totalTransacoes">2</strong>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon red">
+                            <i class="fa-solid fa-arrow-trend-up"></i>
+                        </div>
+                        <p>Maior gasto</p>
+                        <strong id="maiorGasto">R$ 180,00</strong>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon orange">
+                            <i class="fa-solid fa-dollar-sign"></i>
+                        </div>
+                        <p>Média</p>
+                        <strong id="mediaGasto">R$ 150,00</strong>
+                    </div>
+
+                </div>
+
+                <div class="gastos-section">
+
+                    <div class="gastos-header">
+                        <div class="gastos-title">
+                            <i class="fa-regular fa-file-lines"></i>
+                            <p>Gastos registrados</p>
+                        </div>
+
+                        <button class="btn-add" onclick="abrirModalGasto()">
+                            <i class="fa-solid fa-plus"></i>
+                            adicionar
+                        </button>
+                    </div>
+
+                    <div class="gastos-lista" id="gastosLista">
+                    </div>
+
+                    <div class="empty-gastos" id="emptyGastos">
+                        <i class="fa-solid fa-receipt"></i>
+                        <p>Nenhum gasto ainda</p>
+                        <span>Toque em "+ adicionar" para registrar um gasto</span>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+    <!-- MODAL REGISTRAR GASTO -->
+    <div class="modal-overlay" id="modalGasto">
+
+        <div class="modal-gasto">
+
+            <div class="modal-bar"></div>
+
+            <div class="modal-header-gasto">
+                <h2>Registrar gasto</h2>
+                <button onclick="fecharModalGasto()">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <label>DESCRIÇÃO</label>
+            <input id="descGasto" type="text" placeholder="Ex: Supermercado, Uber...">
+
+            <label>VALOR (R$)</label>
+            <input id="valorGasto" type="number" placeholder="0,00">
+
+            <button class="btn-salvar-gasto" onclick="salvarGasto()">
+                Salvar gasto
+            </button>
+
+        </div>
+
+    </div>
+
+    <script src="JS/script.js"></script>
+</body>
+
+</html>

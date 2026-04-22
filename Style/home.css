@@ -209,20 +209,52 @@ body {
 }
 
 /* CARD */
+
 .categoria-card {
     background: #151515;
     border-radius: 20px;
     padding: 14px;
 
-    height: 125px;
+    height: 160px;
 
     position: relative;
     transition: 0.2s;
 
     display: flex;
     flex-direction: column;
-    justify-content: flex-end;
+    justify-content: space-between; /* 🔥 muda isso */
+
     border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.nome {
+    margin-top: 50px; /* 🔥 empurra abaixo do ícone */
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.valor {
+    font-size: 18px;
+    font-weight: 700;
+    color: white;
+    margin-top: 2px;
+}
+
+.categoria-bar {
+    width: 100%;
+    height: 5px;
+    background: #222;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 6px;
+}
+
+.categoria-fill {
+    height: 100%;
+    width: 0%;
+    border-radius: 10px;
+    background: #22c55e;
+    transition: 0.3s;
 }
 
 .categoria-card:hover {
@@ -265,10 +297,10 @@ body {
 /* SETA */
 .arrow {
     position: absolute;
-    bottom: 12px;
-    right: 14px;
-    color: rgba(255, 255, 255, 0.3);
-    font-size: 18px;
+    bottom: 4px; 
+    right: 16px;
+    font-size: 20px;
+    color: rgba(255, 255, 255, 0.226);
 }
 
 /* AÇÕES */
@@ -850,9 +882,9 @@ body {
     height: 1px;
 
     background: linear-gradient(to right,
-            transparent,
-            rgba(34, 197, 94, 0.5),
-            transparent);
+        transparent,
+        rgba(var(--cor-dinamica-rgb), 0.5),
+        transparent);
 }
 
 .top-bar {
@@ -972,6 +1004,7 @@ body {
     color: #22c55e;
     cursor: pointer;
 }
+
 
 /* LISTA */
 .gastos-lista {
@@ -1096,7 +1129,7 @@ body {
 /* BARRA */
 .orcamento-bar {
     width: 100%;
-    height: 6px;
+    height: 8px;
     background: #222;
     border-radius: 10px;
     overflow: hidden;
@@ -1156,7 +1189,7 @@ body {
 
     display: flex;
     align-items: center;
-    justify-content: flex-start;
+    justify-content: center
 }
 
 .stat-icon i {
@@ -1485,4 +1518,21 @@ body {
 
 .negativo-alerta {
     color: #ff3b30;
+}
+
+.categoria-bar {
+    width: 100%;
+    height: 6px;
+    background: #222;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-top: 8px;
+}
+
+.categoria-fill {
+    height: 100%;
+    width: 0%;
+    border-radius: 10px;
+    background: #22c55e;
+    transition: 0.3s;
 }

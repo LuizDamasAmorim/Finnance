@@ -2,6 +2,9 @@ let saldoTotal = 5000;
 let cardEditando = null;
 let cardParaExcluir = null;
 let orcamentoAtual = 0;
+let corAtualDetalhe = "#22c55e";
+let gastosPorCategoria = {};
+let categoriaAtualId = null;
 
 const cores = {
   pink: "#ff2d55",
@@ -249,6 +252,8 @@ function criarCategoria() {
   const valor = parseFloat(valorBruto);
   const grid = document.getElementById("categoriasGrid");
 
+  const id = Date.now();
+
   if (cardEditando) {
     cardEditando.querySelector(".nome").innerText = nome;
     cardEditando.querySelector(".valor").innerText =
@@ -265,34 +270,41 @@ function criarCategoria() {
     const card = document.createElement("div");
     card.classList.add("categoria-card");
 
+    card.dataset.id = id;
+
     card.onclick = () => abrirDetalheCategoria(card);
 
     card.innerHTML = `
-      <div class="actions">
-        <button class="edit" onclick="event.stopPropagation(); editarCategoria(this)">
-          <i class="fa-regular fa-pen-to-square"></i>
-        </button>
+  <div class="actions">
+    <button class="edit" onclick="event.stopPropagation(); editarCategoria(this)">
+      <i class="fa-regular fa-pen-to-square"></i>
+    </button>
 
-        <button class="delete" onclick="excluirCategoria(event, this)">
-          <i class="fa-regular fa-trash-can"></i>
-        </button>
-      </div>
+    <button class="delete" onclick="excluirCategoria(event, this)">
+      <i class="fa-regular fa-trash-can"></i>
+    </button>
+  </div>
 
-      <div class="icon ${corSelecionada}">
-        <i class="fa-solid ${iconeSelecionado}"></i>
-      </div>
+  <div class="icon ${corSelecionada}">
+    <i class="fa-solid ${iconeSelecionado}"></i>
+  </div>
 
-      <p class="nome">${nome}</p>
-      <h3 class="valor money">${formatarDinheiro(valor)}</h3>
+  <div class="categoria-conteudo">
+    <p class="nome">${nome}</p>
+    <h3 class="valor money">${formatarDinheiro(valor)}</h3>
 
-      <span class="arrow">›</span>
-    `;
+    <div class="categoria-bar">
+      <div class="categoria-fill"></div>
+    </div>
+  </div>
+
+  <span class="arrow">›</span>
+`;
 
     card.onclick = () => abrirDetalheCategoria(card);
 
     grid.appendChild(card);
   }
-
 
   fecharModal();
 
@@ -338,68 +350,132 @@ function abrirDetalheCategoria(card) {
   detalheIcon.innerHTML = `<i class="${iconClass}"></i>`;
 
 
-if (detalheIcon) {
-  detalheIcon.style.boxShadow = `
+  if (detalheIcon) {
+    detalheIcon.style.boxShadow = `
   0 10px 25px ${corHex}40,
   0 0 20px ${corHex}30
 `;
-}
+  }
 
   // 🔥 FUNDO DO HEADER 
-const topo = document.querySelector(".detalhe-topo");
+  const topo = document.querySelector(".detalhe-topo");
 
-if (topo) {
-  const corEscura = escurecerCor(corHex, 0.4); // mais escuro
+  if (topo) {
+    const corEscura = escurecerCor(corHex, 0.4); // mais escuro
 
-  topo.style.background = `
+    topo.style.background = `
     linear-gradient(135deg, ${corEscura} 0%, #0b0b0b 120%)
   `;
+  }
+
+  // 🔥 BOTÃO DE ADICIONAR
+  const btnAdd = document.querySelector(".btn-add");
+  if (btnAdd) {
+    btnAdd.style.background = corHex + "20"; // leve transparente
+    btnAdd.style.color = corHex;
+    btnAdd.style.border = `1px solid ${corHex}40`;
+
+    btnAdd.onmouseover = () => {
+      btnAdd.style.background = corHex;
+      btnAdd.style.color = "#fff";
+    };
+
+    btnAdd.onmouseleave = () => {
+      btnAdd.style.background = corHex + "20";
+      btnAdd.style.color = corHex;
+    };
+  }
+  // 🔥 BOTÃO DE VOLTAR + TEXTO
+  const btnVoltar = document.querySelector(".btn-voltar");
+  const label = document.querySelector(".detalhe-label");
+
+  if (btnVoltar) {
+    btnVoltar.style.color = corHex;
+    btnVoltar.style.textShadow = `0 0 6px ${corHex}40`;
+  }
+
+  if (label) {
+    label.style.color = corHex;
+    label.style.textShadow = `0 0 8px ${corHex}50`;
+  }
+
+  // 🔥 ORÇAMENTO (ÍCONE + TEXTO)
+  const orcamentoHeader = document.querySelector(".orcamento-header");
+  const orcamentoIcon = orcamentoHeader?.querySelector("i");
+  const orcamentoTexto = orcamentoHeader?.querySelector("span");
+
+  if (orcamentoIcon) {
+    orcamentoIcon.style.color = corHex;
+    orcamentoIcon.style.textShadow = `0 0 6px ${corHex}40`;
+  }
+
+  if (orcamentoTexto) {
+    orcamentoTexto.style.color = corHex;
+    orcamentoTexto.style.textShadow = `0 0 8px ${corHex}50`;
+  }
+
+  // 🔥 ÍCONE DE TRANSAÇÕES
+  const iconeTransacao = document.querySelectorAll(".gasto-icon").forEach(icon => {
+    icon.style.background = corHex + "20";
+    icon.style.color = corHex;
+  });
+
+  // 🔥 ÍCONE DO CARD "TRANSAÇÕES"
+const statIcon = document.querySelector(".stat-icon i");
+const statBox = document.querySelector(".stat-icon");
+
+if (statIcon && statBox) {
+  statIcon.style.color = corHex;
+  statIcon.style.textShadow = `0 0 8px ${corHex}50`;
+
+  statBox.style.background = corHex + "20";
+  statBox.style.borderRadius = "50%";
 }
 
-// 🔥 BOTÃO DE ADICIONAR
-const btnAdd = document.querySelector(".btn-add-gasto");
-if (btnAdd) {
-  btnAdd.style.background = corHex;
-  btnAdd.style.boxShadow = `0 4px 15px ${corHex}50`;
+// 🔥 VALOR RESTANTE DINÂMICO
+const restanteEl = document.getElementById("orcamentoRestante");
+
+if (restanteEl) {
+  restanteEl.style.color = corHex;
+  restanteEl.style.textShadow = `0 0 6px ${corHex}40`;
 }
 
-// 🔥 BOTÃO DE VOLTAR + TEXTO
-const btnVoltar = document.querySelector(".btn-voltar");
-const label = document.querySelector(".detalhe-label");
+categoriaAtualId = card.dataset.id;
 
-if (btnVoltar) {
-  btnVoltar.style.color = corHex;
-  btnVoltar.style.textShadow = `0 0 6px ${corHex}40`;
+const fill = card?.querySelector(".categoria-fill");
+
+if (fill) {
+  fill.style.background = corHex;
 }
 
-if (label) {
-  label.style.color = corHex;
-  label.style.textShadow = `0 0 8px ${corHex}50`;
-}
+// limpa lista
+const lista = document.getElementById("gastosLista");
+lista.innerHTML = "";
 
-// 🔥 ORÇAMENTO (ÍCONE + TEXTO)
-const orcamentoHeader = document.querySelector(".orcamento-header");
-const orcamentoIcon = orcamentoHeader?.querySelector("i");
-const orcamentoTexto = orcamentoHeader?.querySelector("span");
+// carrega gastos dessa categoria
+const gastos = gastosPorCategoria[categoriaAtualId] || [];
 
-if (orcamentoIcon) {
-  orcamentoIcon.style.color = corHex;
-  orcamentoIcon.style.textShadow = `0 0 6px ${corHex}40`;
-}
-
-if (orcamentoTexto) {
-  orcamentoTexto.style.color = corHex;
-  orcamentoTexto.style.textShadow = `0 0 8px ${corHex}50`;
-}
-
-// 🔥 ÍCONE DE TRANSAÇÕES
-const iconeTransacao = document.querySelectorAll(".gasto-icon").forEach(icon => {
-  icon.style.background = corHex + "20";
-  icon.style.color = corHex;
+gastos.forEach(g => {
+  adicionarGastoNaTela(g);
 });
+
+const root = document.documentElement;
+
+// converte HEX → RGB
+const r = parseInt(corHex.substring(1, 3), 16);
+const g = parseInt(corHex.substring(3, 5), 16);
+const b = parseInt(corHex.substring(5, 7), 16);
+
+root.style.setProperty("--cor-dinamica-rgb", `${r}, ${g}, ${b}`);
+
+  corAtualDetalhe = corHex;
+
+  const cardAtual = document.querySelector(`[data-id="${categoriaAtualId}"]`);
+    if (cardAtual) atualizarBarraCategoria(cardAtual);
 
   atualizarResumo();
   recalcularOrcamento();
+
 }
 
 function fecharDetalhe() {
@@ -506,39 +582,45 @@ function atualizarOrcamento(reservado, gasto) {
   percentEl.classList.remove("negativo-alerta");
   restanteEl.classList.remove("negativo-alerta");
   alerta.style.display = "none";
-  barra.style.background = ""; // volta cor normal
+
+  // 🔥 COR SEMPRE DINÂMICA
+  barra.style.background = corAtualDetalhe;
 
   // 🔥 SE EXCEDEU
   if (gasto > reservado) {
-  const excedido = gasto - reservado;
+    const excedido = gasto - reservado;
 
-  percentEl.innerText = "Orçamento excedido!";
+    percentEl.innerText = "Orçamento excedido!";
 
-  percentEl.classList.add("negativo-alerta");
-  restanteEl.classList.add("negativo-alerta");
+    percentEl.classList.add("negativo-alerta");
+    restanteEl.classList.add("negativo-alerta");
 
-  alerta.style.display = "flex";
+    alerta.style.display = "flex";
 
-  alerta.innerHTML = `
-    <i class="fa-solid fa-triangle-exclamation"></i>
-    Excedeu ${formatarDinheiro(excedido)}
-  `;
+    alerta.innerHTML = `
+      <i class="fa-solid fa-triangle-exclamation"></i>
+      Excedeu ${formatarDinheiro(excedido)}
+    `;
 
-  barra.style.background = "#ff3b30";
-  barra.style.width = "100%";
+    barra.style.width = porcentagem + "%";
 
-} else {
-  // ✅ AQUI ESTAVA FALTANDO
-  percentEl.innerText = Math.round(porcentagem) + "% utilizado";
+  } else {
+    percentEl.innerText = Math.round(porcentagem) + "% utilizado";
 
-  barra.style.width = porcentagem + "%";
-}
+    barra.style.width = porcentagem + "%";
+  }
 }
 
 function abrirModalGasto() {
   document.getElementById("modalGasto").classList.add("active");
-}
 
+  const btnSalvar = document.querySelector(".btn-salvar-gasto");
+
+  if (btnSalvar) {
+    btnSalvar.style.background = corAtualDetalhe;
+    btnSalvar.style.boxShadow = `0 8px 20px ${corAtualDetalhe}60`;
+  }
+}
 function fecharModalGasto() {
   document.getElementById("modalGasto").classList.remove("active");
 }
@@ -552,44 +634,23 @@ function salvarGasto() {
     return;
   }
 
-  const lista = document.getElementById("gastosLista");
+  const gasto = {
+    desc,
+    valor
+  };
 
-  const item = document.createElement("div");
-  item.classList.add("gasto-card");
+  if (!gastosPorCategoria[categoriaAtualId]) {
+    gastosPorCategoria[categoriaAtualId] = [];
+  }
 
-  item.innerHTML = `
-    <div class="gasto-left">
-      <div class="gasto-icon">
-        <i class="fa-solid fa-receipt"></i>
-      </div>
+  gastosPorCategoria[categoriaAtualId].push(gasto);
 
-      <div class="gasto-info">
-        <span class="gasto-nome">${desc}</span>
-        <span class="gasto-data">Agora</span>
-      </div>
-    </div>
+  const card = document.querySelector(`[data-id="${categoriaAtualId}"]`);
+  if (card) atualizarBarraCategoria(card);
+  
 
-    <div style="display:flex; align-items:center; gap:8px;">
-      <span class="gasto-valor negativo">
-        - ${formatarDinheiro(valor)}
-      </span>
-
-      <button onclick="removerGasto(this)" 
-        style="
-          background: rgba(255,59,48,0.15);
-          border:none;
-          width:28px;
-          height:28px;
-          border-radius:50%;
-          color:#ff3b30;
-          cursor:pointer;
-        ">
-        <i class="fa-solid fa-trash"></i>
-      </button>
-    </div>
-  `;
-
-  lista.appendChild(item);
+  // renderiza na tela (UMA VEZ SÓ)
+  adicionarGastoNaTela(gasto);
 
   mostrarToast("Gasto adicionado", "sucesso");
 
@@ -597,6 +658,7 @@ function salvarGasto() {
   verificarEmptyGastos();
   atualizarResumo();
 
+  // limpa inputs
   document.getElementById("descGasto").value = "";
   document.getElementById("valorGasto").value = "";
 }
@@ -712,6 +774,80 @@ function escurecerCor(hex, fator = 0.7) {
   const novoB = Math.floor(b * fator);
 
   return `rgb(${novoR}, ${novoG}, ${novoB})`;
+}
+
+function adicionarGastoNaTela(gasto) {
+  const lista = document.getElementById("gastosLista");
+
+  const item = document.createElement("div");
+  item.classList.add("gasto-card");
+
+  item.innerHTML = `
+    <div class="gasto-left">
+      <div class="gasto-icon" style="
+        background: ${corAtualDetalhe}20;
+      ">
+        <i class="fa-solid fa-dollar-sign" style="
+          color: ${corAtualDetalhe};
+        "></i>
+      </div>
+
+      <div class="gasto-info">
+        <span class="gasto-nome">${gasto.desc}</span>
+        <span class="gasto-data">Agora</span>
+      </div>
+    </div>
+
+    <div style="display:flex; align-items:center; gap:8px;">
+      <span class="gasto-valor negativo">
+        - ${formatarDinheiro(gasto.valor)}
+      </span>
+
+      <button onclick="removerGasto(this)" 
+        style="
+          background: rgba(255,59,48,0.15);
+          border:none;
+          width:28px;
+          height:28px;
+          border-radius:50%;
+          color:#ff3b30;
+          cursor:pointer;
+        ">
+        <i class="fa-regular fa-trash-can"></i>
+      </button>
+    </div>
+  `;
+
+  lista.appendChild(item);
+}
+
+function atualizarBarraCategoria(card) {
+  const id = card.dataset.id;
+
+  const gastos = gastosPorCategoria[id] || [];
+
+  let totalGasto = 0;
+
+  gastos.forEach(g => {
+    totalGasto += parseFloat(g.valor) || 0;
+  });
+
+  const valorTexto = card.querySelector(".valor").innerText;
+
+  const reservado = parseFloat(
+    valorTexto.replace("R$", "").replace(/\./g, "").replace(",", ".")
+  ) || 0;
+
+  const porcentagem = reservado === 0 ? 0 : (totalGasto / reservado) * 100;
+
+  const fill = card.querySelector(".categoria-fill");
+
+  if (fill) {
+    fill.style.width = Math.min(porcentagem, 100) + "%";
+
+    // 🔥 COR DINÂMICA REAL
+    fill.style.background = corAtualDetalhe;
+  }
 }
 
 /* ===================== INIT ===================== */

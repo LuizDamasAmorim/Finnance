@@ -222,13 +222,15 @@ body {
 
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* 🔥 muda isso */
+    justify-content: space-between;
+    /* 🔥 muda isso */
 
     border: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .nome {
-    margin-top: 50px; /* 🔥 empurra abaixo do ícone */
+    margin-top: 50px;
+    /* 🔥 empurra abaixo do ícone */
     font-size: 12px;
     color: rgba(255, 255, 255, 0.6);
 }
@@ -288,6 +290,7 @@ body {
 }
 
 /* VALOR */
+
 .valor {
     font-size: 18px;
     font-weight: 700;
@@ -297,7 +300,7 @@ body {
 /* SETA */
 .arrow {
     position: absolute;
-    bottom: 4px; 
+    bottom: 4px;
     right: 16px;
     font-size: 20px;
     color: rgba(255, 255, 255, 0.226);
@@ -882,9 +885,9 @@ body {
     height: 1px;
 
     background: linear-gradient(to right,
-        transparent,
-        rgba(var(--cor-dinamica-rgb), 0.5),
-        transparent);
+            transparent,
+            rgba(var(--cor-dinamica-rgb), 0.5),
+            transparent);
 }
 
 .top-bar {
@@ -1535,4 +1538,13 @@ body {
     border-radius: 10px;
     background: #22c55e;
     transition: 0.3s;
+}
+
+@media (max-width: 768px) {
+    .fab {
+        left: auto;
+        right: 20px;
+        bottom: 20px;
+        transform: none;
+    }
 }
